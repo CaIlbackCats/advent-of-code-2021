@@ -34,7 +34,7 @@ public class SonarSweep {
     private Entry<String, List<Integer>> process(Path path){
         List<Integer> results = new ArrayList<>();
 
-        List<Integer> inputs = FileHandler.createIntListFromInput(path);
+        List<Integer> inputs = FileHandler.createListFromInput(path).stream().map(Integer::parseInt).collect(Collectors.toList());
         results.add(countIncreasedWindow(inputs,1));
         results.add(countIncreasedWindow(inputs,3));
 
