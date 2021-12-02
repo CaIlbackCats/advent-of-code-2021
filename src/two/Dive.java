@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,9 @@ public class Dive {
         int depth = FileHandler.createListFromInput(path).stream().map(line -> fillMap(line, map)).reduce(Integer::sum).orElse(-1);
         int horizontal = map.get(FORWARD);
         results.add(depth*horizontal);
+        depth = map.get(DOWN)-map.get(UP);
+        results.add(depth*horizontal);
+        Collections.reverse(results);
         return Map.entry(path.getFileName().toString(),results);
     }
 
