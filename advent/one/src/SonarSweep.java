@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class SonarSweep {
 
     void solve() throws IOException{
 
-        Map<String,Integer> results = new HashMap<>();
+        Map<String,List<Integer>> results = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(INPUT_FOLDER))) {
             results = paths.filter(Files::isRegularFile).map(this::process).collect(Collectors.toMap(Entry::getKey,Entry::getValue));
         }catch(Exception e){
@@ -28,9 +29,18 @@ public class SonarSweep {
         results.entrySet().forEach(System.out::println);
     }
 
-    private Entry<String, Integer> process(Path path){
+    private Entry<String, List<Integer>> process(Path path){
+        List<Integer> results = new ArrayList<>();
+
         List<Integer> inputs = FileHandler.createIntListFromInput(path);
-        int result = IntStream.range(1, inputs.size()).map(id -> (inputs.get(id)>inputs.get(id-1))?1:0).sum();
-        return Map.entry(path.getFileName().toString(),result);
+        results.add(countIncreasedWindow(inputs,1));
+        results.add(countIncreasedWindow(inputs,3));
+
+        return Map.entry(path.getFileName().toString(),results);
+    }
+
+    private Integer countIncreasedWindow(List<Integer> inputs, Integer window){
+        List<Integer> windowed = IntStream.range(window, inputs.size()+1).map(id -> inputs.subList(id-window, id).stream().reduce(0, Integer::sum)).boxed().collect(Collectors.toList());
+        return IntStream.range(1, windowed.size()).map(id -> (windowed.get(id)>windowed.get(id-1))?1:0).sum();
     }
 }
