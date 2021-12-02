@@ -1,3 +1,5 @@
+package one;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +16,7 @@ import utils.FileHandler;
 
 public class SonarSweep {
 
-    private static String INPUT_FOLDER = "/workspace/advent-of-code-2021/advent/resources/Day 1";
+    private static String INPUT_FOLDER = "E:\\AdventOfCode\\Kozos\\advent-of-code-2021\\src\\resources\\Day 1";
     
 
     void solve() throws IOException{
