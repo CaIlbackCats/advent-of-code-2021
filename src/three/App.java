@@ -1,13 +1,14 @@
-package one;
+package three;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
-        SonarSweep sonarSweep = new SonarSweep();
+        BinaryDiagnostic binaryDiagnostic = new BinaryDiagnostic();
         long start = System.nanoTime();
-        sonarSweep.solve();
+        binaryDiagnostic.solve();
         long end = System.nanoTime();
         long result = (end-start)/1000000;
         System.out.println("Duration:\t"+result);
+
     }
 }
