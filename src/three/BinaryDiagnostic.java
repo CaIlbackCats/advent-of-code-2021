@@ -1,6 +1,7 @@
 package three;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -18,21 +19,9 @@ public class BinaryDiagnostic extends AdventSolver<List<String>> {
     //TODO refactor!
     @Override
     protected int findPartOneResult() {
-      int[] sums = IntStream.range(0, this.processedInput.get(0).length()).map(n->0).toArray();
-        this.processedInput.forEach(row -> {
-        for(int i=0; i<row.length(); i++){
-          sums[i] += Integer.parseInt(row.charAt(i)+"");
-        }});
-        String gammaRate="";
-        String epsilonRate="";
-        for(int i=0;i<sums.length;i++){
-          String current = (this.processedInput.size()-sums[i]<sums[i])?"1":"0";
-          gammaRate += current;
-          epsilonRate += (current.equals("1"))?"0":"1";
-        }
-        int gammaInt = Integer.valueOf(gammaRate,2);
-        int epsilonInt = Integer.valueOf(epsilonRate,2);
-      return gammaInt*epsilonInt;
+      int[] sums = new int [this.processedInput.get(0).length()];
+        this.processedInput.forEach(row -> addValueToSumArray(sums, row));
+      return getConsumption(sums);
     }
 
     @Override
@@ -44,6 +33,25 @@ public class BinaryDiagnostic extends AdventSolver<List<String>> {
     @Override
     protected List<String> processInput(Path path) {
       return FileHandler.createListFromInput(path);
+    }
+
+    private void addValueToSumArray(int [] array,String line){
+      IntStream.range(0, line.length()).forEach(index ->array[index]+= Integer.parseInt(line.charAt(index)+""));
+    }
+
+    private int convertSumValueToBit(int value,boolean common){
+      if(common){
+        return (this.processedInput.size()-value<value)?1:0;
+      }else{
+        return (this.processedInput.size()-value>value)?1:0;
+      }
+    }
+
+    private int getConsumption(int [] sums){
+      StringBuilder gammaRate = new StringBuilder();
+      StringBuilder epsilonRate = new StringBuilder();
+      Arrays.stream(sums).forEach(number -> {gammaRate.append(convertSumValueToBit(number, true)); epsilonRate.append(convertSumValueToBit(number, false));});
+      return Integer.valueOf(gammaRate.toString(),2)*Integer.valueOf(epsilonRate.toString(),2);
     }
 
     
