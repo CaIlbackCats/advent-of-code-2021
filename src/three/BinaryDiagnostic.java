@@ -40,11 +40,11 @@ public class BinaryDiagnostic extends AdventSolver<List<String>> {
     }
 
     private int convertSumValueToBit(int value,boolean common){
-      if(common){
-        return (this.processedInput.size()-value<value)?1:0;
-      }else{
-        return (this.processedInput.size()-value>value)?1:0;
+      int result = (this.processedInput.size()-value<value)?1:0;
+      if(!common){
+        result = (result==1)?0:1;
       }
+      return result;
     }
 
     private int getConsumption(int [] sums){
