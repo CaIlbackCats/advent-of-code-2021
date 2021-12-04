@@ -1,44 +1,33 @@
 package one;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
+import utils.AdventSolver;
 import utils.FileHandler;
 
-public class SonarSweep {
+public class SonarSweep extends AdventSolver<List<Integer>> {
 
     private static String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 1";
-    
 
-    void solve() throws IOException{
-
-        Map<String,List<Integer>> results = new HashMap<>();
-        try (Stream<Path> paths = Files.walk(Paths.get(INPUT_FOLDER))) {
-            results = paths.filter(Files::isRegularFile).map(this::process).collect(Collectors.toMap(Entry::getKey,Entry::getValue));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-   
-        results.entrySet().forEach(System.out::println);
+    public SonarSweep(){
+       super(INPUT_FOLDER);
     }
 
-    private Entry<String, List<Integer>> process(Path path){
-        List<Integer> results = new ArrayList<>();
+    @Override
+    protected int findPartOneResult(){
+        return countIncreasedWindow(this.processedInput, 1);
+    }
+    @Override
+    protected int findPartTwoResult(){
+        return countIncreasedWindow(this.processedInput, 3);
+    }
 
-        List<Integer> inputs = FileHandler.createListFromInput(path).stream().map(Integer::parseInt).collect(Collectors.toList());
-        results.add(countIncreasedWindow(inputs,1));
-        results.add(countIncreasedWindow(inputs,3));
-
-        return Map.entry(path.getFileName().toString(),results);
+    @Override
+    protected List<Integer> processInput(Path path){
+        return FileHandler.createListFromInput(path).stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     private Integer countIncreasedWindow(List<Integer> inputs, Integer window){
