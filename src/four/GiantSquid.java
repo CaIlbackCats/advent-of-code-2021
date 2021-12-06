@@ -19,6 +19,8 @@ public class GiantSquid extends AdventSolver<Bingo> {
     
     private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 4";
 
+    private List<Integer> alreadyBingoed = new ArrayList<>();
+
     protected GiantSquid() {
         super(INPUT_FOLDER);
     }
@@ -69,34 +71,36 @@ public class GiantSquid extends AdventSolver<Bingo> {
         Map<Integer,List<NumberLocation>> tableLocationMap = new HashMap<>();
         Map<Integer,List<NumberLocation>> bingoMap = this.processedInput.getBingoMap().entrySet().stream().collect(Collectors.toMap(Entry::getKey,entry -> new ArrayList<>(entry.getValue())));
         boolean isBingo =false;
-        int bingoCounter = 0;
         int tableCount = (int) bingoMap.values().stream().flatMap(Collection::stream).map(NumberLocation::getTableNumber).distinct().count();
         while(!isBingo){
             for (int i = 0; i < draws.size() && !isBingo; i++) {
                  Integer drawnNumber = draws.get(i);
                  List<NumberLocation> locations = bingoMap.get(drawnNumber);
-                 for (int j = 0; j < locations.size() && !isBingo; j++) {
-                     NumberLocation currentLocation = locations.get(j);
-                     boolean isTableBingo = calculateBingo(tableLocationMap, currentLocation);
-                     bingoMap.remove(currentLocation.getNumber());
-                     if(isTableBingo){
-                       int result =  bingoMap.values().stream()
-                                         .flatMap(Collection::stream)
-                                         .filter(location -> location.getTableNumber()==currentLocation.getTableNumber())
-                                         .map(NumberLocation::getNumber)
-                                         .reduce(Integer::sum)
-                                         .orElse(-1)* drawnNumber;
-                        bingoCounter++;
-                        if(lastBingo){
-                            isBingo = bingoCounter==(tableCount);                            
-                        }else{
-                            isBingo = isTableBingo;
+                 if(locations!=null){
+                    for (int j = 0; j < locations.size() && !isBingo; j++) {
+                        NumberLocation currentLocation = locations.get(j);
+                        boolean isTableBingo = calculateBingo(tableLocationMap, currentLocation);
+                        bingoMap.remove(currentLocation.getNumber());
+                        if(isTableBingo){
+                        int result =  bingoMap.values().stream()
+                                            .flatMap(Collection::stream)
+                                            .filter(location -> location.getTableNumber()==currentLocation.getTableNumber())
+                                            .map(NumberLocation::getNumber)
+                                            .reduce(Integer::sum)
+                                            .orElse(-1)* drawnNumber;
+                            if(lastBingo){
+                                isBingo = this.alreadyBingoed.size()==(tableCount);                            
+                            }else{
+                                isBingo = isTableBingo;
+                            }
+                            if(isBingo){
+                                return result;
+                            }
                         }
-                        if(isBingo){
-                            return result;
-                        }
-                     }
-                 }
+                    }
+                }else{
+                    
+                }
              }
         }
         return 0;        
@@ -122,14 +126,21 @@ public class GiantSquid extends AdventSolver<Bingo> {
             numberLocations.add(numberLocation);
             tableLocationMap.put(currentTable, numberLocations);
             return false;
-        }else{
+        }else if(!this.alreadyBingoed.contains(currentTable)){
             List<NumberLocation> locations = tableLocationMap.get(currentTable);
             locations.add(numberLocation);
             tableLocationMap.put(currentTable, locations);
-            boolean isRowBingo = locations.stream().map(NumberLocation::getX).filter(x -> numberLocation.getX()==x).count()==TABLE_LENGTH;
-            boolean isColumnBingo = locations.stream().map(NumberLocation::getY).filter(y -> numberLocation.getY()==y).count()==TABLE_LENGTH;
-            return isRowBingo || isColumnBingo;
+            int rowCounts = (int) locations.stream().map(NumberLocation::getX).filter(x -> numberLocation.getX()==x).count();
+            int columnCounts = (int) locations.stream().map(NumberLocation::getY).filter(y -> numberLocation.getY()==y).count();
+            boolean isRowBingo = rowCounts==TABLE_LENGTH;
+            boolean isColumnBingo = columnCounts==TABLE_LENGTH;
+            boolean isBingo = isRowBingo || isColumnBingo;
+            if(isBingo){
+                this.alreadyBingoed.add(currentTable);
+                return isBingo;
+            }
         }
+        return false;
     }
     
 }
