@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import utils.AdventSolver;
@@ -24,37 +25,12 @@ public class GiantSquid extends AdventSolver<Bingo> {
 
     @Override
     protected int findPartOneResult() {
-        List<Integer> draws = this.processedInput.getDrawnNumbers();
-        Map<Integer,List<NumberLocation>> tableLocationMap = new HashMap<>();
-        Map<Integer,List<NumberLocation>> bingoMap = this.processedInput.getBingoMap();
-        boolean isBingo =false;
-        while(!isBingo){
-            for (int i = 0; i < draws.size() && !isBingo; i++) {
-                 Integer drawnNumber = draws.get(i);
-                 List<NumberLocation> locations = bingoMap.get(drawnNumber);
-                 for (int j = 0; j < locations.size() && !isBingo; j++) {
-                     NumberLocation currentLocation = locations.get(j);
-                     isBingo = calculateBingo(tableLocationMap, currentLocation);
-                     bingoMap.remove(currentLocation.getNumber());
-                     if(isBingo){
-                       int result =  bingoMap.values().stream()
-                                         .flatMap(Collection::stream)
-                                         .filter(location -> location.getTableNumber()==currentLocation.getTableNumber())
-                                         .map(NumberLocation::getNumber)
-                                         .reduce(Integer::sum)
-                                         .orElse(-1);
-                         return result * currentLocation.getNumber();
-                     }
-                 }
-             }
-        }
-         return 0;
+        return getBingo(false);
     }
 
     @Override
     protected int findPartTwoResult() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getBingo(true);
     }
 
     @Override
@@ -87,6 +63,45 @@ public class GiantSquid extends AdventSolver<Bingo> {
         return bingo;
     }
 
+    
+    private int getBingo(boolean lastBingo){
+        List<Integer> draws = this.processedInput.getDrawnNumbers();
+        Map<Integer,List<NumberLocation>> tableLocationMap = new HashMap<>();
+        Map<Integer,List<NumberLocation>> bingoMap = this.processedInput.getBingoMap().entrySet().stream().collect(Collectors.toMap(Entry::getKey,entry -> new ArrayList<>(entry.getValue())));
+        boolean isBingo =false;
+        int bingoCounter = 0;
+        int tableCount = (int) bingoMap.values().stream().flatMap(Collection::stream).map(NumberLocation::getTableNumber).distinct().count();
+        while(!isBingo){
+            for (int i = 0; i < draws.size() && !isBingo; i++) {
+                 Integer drawnNumber = draws.get(i);
+                 List<NumberLocation> locations = bingoMap.get(drawnNumber);
+                 for (int j = 0; j < locations.size() && !isBingo; j++) {
+                     NumberLocation currentLocation = locations.get(j);
+                     boolean isTableBingo = calculateBingo(tableLocationMap, currentLocation);
+                     bingoMap.remove(currentLocation.getNumber());
+                     if(isTableBingo){
+                       int result =  bingoMap.values().stream()
+                                         .flatMap(Collection::stream)
+                                         .filter(location -> location.getTableNumber()==currentLocation.getTableNumber())
+                                         .map(NumberLocation::getNumber)
+                                         .reduce(Integer::sum)
+                                         .orElse(-1)* drawnNumber;
+                        bingoCounter++;
+                        if(lastBingo){
+                            isBingo = bingoCounter==(tableCount);                            
+                        }else{
+                            isBingo = isTableBingo;
+                        }
+                        if(isBingo){
+                            return result;
+                        }
+                     }
+                 }
+             }
+        }
+        return 0;        
+    }
+
     private void addToMap(Map<Integer,List<NumberLocation>> bingoMap,NumberLocation numberLocation){
         Integer currentNumber = numberLocation.getNumber();
         if(bingoMap.get(currentNumber)==null){
@@ -111,7 +126,9 @@ public class GiantSquid extends AdventSolver<Bingo> {
             List<NumberLocation> locations = tableLocationMap.get(currentTable);
             locations.add(numberLocation);
             tableLocationMap.put(currentTable, locations);
-            return locations.stream().map(NumberLocation::getX).filter(x -> numberLocation.getX()==x).count()==TABLE_LENGTH;
+            boolean isRowBingo = locations.stream().map(NumberLocation::getX).filter(x -> numberLocation.getX()==x).count()==TABLE_LENGTH;
+            boolean isColumnBingo = locations.stream().map(NumberLocation::getY).filter(y -> numberLocation.getY()==y).count()==TABLE_LENGTH;
+            return isRowBingo || isColumnBingo;
         }
     }
     
