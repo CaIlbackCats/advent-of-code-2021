@@ -94,12 +94,11 @@ public class GiantSquid extends AdventSolver<Bingo> {
                                 isBingo = isTableBingo;
                             }
                             if(isBingo){
+                                alreadyBingoed = new ArrayList<>();
                                 return result;
                             }
                         }
                     }
-                }else{
-                    
                 }
              }
         }
