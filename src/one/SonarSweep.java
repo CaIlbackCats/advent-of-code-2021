@@ -6,14 +6,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import utils.AdventSolver;
+import utils.DailyFilePath;
 import utils.FileHandler;
 
 public class SonarSweep extends AdventSolver<List<Integer>> {
 
-    private static String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 1";
-
     public SonarSweep(){
-       super(INPUT_FOLDER);
+       super(DailyFilePath.ONE);
     }
 
     @Override

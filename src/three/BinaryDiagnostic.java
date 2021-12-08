@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import utils.AdventSolver;
+import utils.DailyFilePath;
 import utils.FileHandler;
 
 public class BinaryDiagnostic extends AdventSolver<List<String>> {
 
-    private static String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 3";
-
     public BinaryDiagnostic(){
-      super(INPUT_FOLDER);
+      super(DailyFilePath.THREE);
     }
 
     @Override

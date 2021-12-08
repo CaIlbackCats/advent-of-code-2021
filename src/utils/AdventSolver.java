@@ -26,6 +26,14 @@ public abstract class AdventSolver<T> {
         }
     }
 
+    protected AdventSolver(DailyFilePath path){
+        try {
+            this.paths = Files.walk(path.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void solve(){        
         Map<String,List<Integer>> results = new HashMap<>();
         results = this.paths.filter(Files::isRegularFile).map(this::process).collect(Collectors.toMap(Entry::getKey,Entry::getValue));   

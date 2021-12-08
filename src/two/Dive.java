@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import utils.AdventSolver;
+import utils.DailyFilePath;
 import utils.FileHandler;
 
 public class Dive extends AdventSolver<Map<String,Integer>> {
 
-    private static String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 2";
     private static final String FORWARD = "forward";
     private static final String UP = "up";
     private static final String DOWN = "down";
@@ -19,7 +19,7 @@ public class Dive extends AdventSolver<Map<String,Integer>> {
     private int horizontal;
 
     public Dive(){
-      super(INPUT_FOLDER);
+      super(DailyFilePath.TWO);
     }
     
     @Override

@@ -1,22 +1,19 @@
 package five;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import utils.AdventSolver;
+import utils.DailyFilePath;
 import utils.FileHandler;
 
 public class HydroThermalVenture extends AdventSolver<List<String []>> {
 
-    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 5";
-
     protected HydroThermalVenture() {
-        super(INPUT_FOLDER);
+        super(DailyFilePath.FIVE);
     }
 
     @Override

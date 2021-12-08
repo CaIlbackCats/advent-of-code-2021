@@ -11,18 +11,17 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import utils.AdventSolver;
+import utils.DailyFilePath;
 import utils.FileHandler;
 
 public class GiantSquid extends AdventSolver<Bingo> {
 
-    private static final Integer TABLE_LENGTH = 5;
-    
-    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 4";
+    private static final Integer TABLE_LENGTH = 5;    
 
     private List<Integer> alreadyBingoed = new ArrayList<>();
 
     protected GiantSquid() {
-        super(INPUT_FOLDER);
+        super(DailyFilePath.FOUR);
     }
 
     @Override
