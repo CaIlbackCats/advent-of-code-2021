@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Coordinate {
+
+    private static final int HASH_PRIME = 43;
     
     private int x;
 
@@ -48,9 +50,11 @@ public class Coordinate {
     }
 
     @Override
-    public int hashCode() {
-        //TODO
-        return 1;
+    public int hashCode() {        
+        int hash = 7;
+        hash = HASH_PRIME * hash  + this.x;
+        hash = HASH_PRIME * hash + this.y;        
+        return hash;
     }
         
     private static List<Coordinate> getInbetweenByX(Coordinate from, Coordinate to){
