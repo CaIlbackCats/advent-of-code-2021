@@ -8,13 +8,13 @@ import java.util.stream.IntStream;
 
 public class Coordinate {
     
-    private Integer x;
+    private int x;
 
-    private Integer y;
+    private int y;
 
     public Coordinate(Integer x, Integer y){
-        this.x = x;
-        this.y = y;
+        this.x = x.intValue();
+        this.y = y.intValue();
     }
 
     public static List<Coordinate> getInBetweenPoints(String [] rows){
@@ -29,10 +29,10 @@ public class Coordinate {
         return Collections.emptyList();
     }
 
-    public Integer getX(){
+    public int getX(){
         return this.x;
     }
-    public Integer getY(){
+    public int getY(){
         return this.y;
     }
 
@@ -63,7 +63,8 @@ public class Coordinate {
             endRange = to.getY();
             startRange = from.getY();
         }
-       return IntStream.range(startRange, endRange+1).mapToObj(yCoord -> new Coordinate(from.getX(), yCoord)).collect(Collectors.toList());
+        List<Coordinate> coords = IntStream.range(startRange, endRange+1).mapToObj(yCoord -> new Coordinate(from.getX(), yCoord)).collect(Collectors.toList());
+        return coords;
     }
     private static List<Coordinate> getInbetweenByY(Coordinate from,Coordinate to){
             int startRange =0;

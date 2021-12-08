@@ -13,7 +13,7 @@ import utils.FileHandler;
 
 public class HydroThermalVenture extends AdventSolver<List<Coordinate>> {
 
-    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 5";
+    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/sample";
 
     protected HydroThermalVenture() {
         super(INPUT_FOLDER);
@@ -22,7 +22,8 @@ public class HydroThermalVenture extends AdventSolver<List<Coordinate>> {
     @Override
     protected int findPartOneResult() {
         Map<Coordinate, Integer> resultMap = this.processedInput.stream().collect(Collectors.toMap((key) -> key, (value) -> 0,(existing, replacement) -> 2));
-        return (int) resultMap.values().stream().filter(v -> 0<v).count();
+       return (int) resultMap.values().stream().filter(number -> number==2).count();
+      //  return (int) resultMap.values().stream().filter(v -> 0<v).count();
     }
 
     @Override
