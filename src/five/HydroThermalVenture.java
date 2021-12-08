@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import utils.AdventSolver;
 import utils.FileHandler;
 
-public class HydroThermalVenture extends AdventSolver<List<Coordinate>> {
+public class HydroThermalVenture extends AdventSolver<List<String []>> {
 
-    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/sample";
+    private static final String INPUT_FOLDER = "/workspace/advent-of-code-2021/src/resources/Day 5";
 
     protected HydroThermalVenture() {
         super(INPUT_FOLDER);
@@ -21,25 +21,23 @@ public class HydroThermalVenture extends AdventSolver<List<Coordinate>> {
 
     @Override
     protected int findPartOneResult() {
-        Map<Coordinate, Integer> resultMap = this.processedInput.stream().collect(Collectors.toMap((key) -> key, (value) -> 0,(existing, replacement) -> 2));
-       return (int) resultMap.values().stream().filter(number -> number==2).count();
-      //  return (int) resultMap.values().stream().filter(v -> 0<v).count();
+        return getResultByDiagonal(false);
     }
 
     @Override
     protected int findPartTwoResult() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getResultByDiagonal(true);
     }
 
     @Override
-    protected List<Coordinate> processInput(Path path) {
-        return FileHandler.createListFromInput(path).stream().map(row->(row.replace(" -> ", ",")).split(",")).map(Coordinate::getInBetweenPoints).flatMap(Collection::stream).collect(Collectors.toList());
+    protected List<String []> processInput(Path path) {
+        return FileHandler.createListFromInput(path).stream().map(row->(row.replace(" -> ", ",")).split(",")).collect(Collectors.toList());        
     }
 
-    private <U,R> R getMergeValue(U existing, U replacement){
-        Integer number = (int) existing +1;
-        return (R) number;
+    private int getResultByDiagonal(boolean diagonal){
+        List<Coordinate> inbetween = this.processedInput.stream().map(row -> Coordinate.getInBetweenPoints(row, diagonal)).flatMap(Collection::stream).collect(Collectors.toList());
+        Map<Coordinate, Integer> resultMap = inbetween.stream().collect(Collectors.toMap((key) -> key, (value) -> 0,(existing, replacement) -> 2));
+       return (int) resultMap.values().stream().filter(number -> number==2).count();
     }
     
 }

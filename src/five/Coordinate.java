@@ -1,6 +1,5 @@
 package five;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,16 +18,22 @@ public class Coordinate {
         this.y = y.intValue();
     }
 
-    public static List<Coordinate> getInBetweenPoints(String [] rows){
+    public static List<Coordinate> getInBetweenPoints(String [] rows, boolean checkDiagonal){
         Coordinate from = new Coordinate(Integer.parseInt(rows[0]),Integer.parseInt(rows[1]));
         Coordinate to = new Coordinate(Integer.parseInt(rows[2]),Integer.parseInt(rows[3]));
-        if(from.getX()==to.getX()){
-            return getInbetweenByX(from, to);
+        int xDiff = Math.abs(from.getX()-to.getX());
+        int yDiff = Math.abs(from.getY()-to.getY());
+        if(from.getX()==to.getX() || from.getY()==to.getY()){
+            return getInbetweenCoordinates(from, to,xDiff,yDiff);
         }
-        if(from.getY()==to.getY()){
-            return getInbetweenByY(from, to);
+        if(checkDiagonal && xDiff==yDiff){
+            return getInbetweenCoordinates(from, to, xDiff, yDiff);
         }
         return Collections.emptyList();
+    }
+
+    public Coordinate addCoordinate( Coordinate b){
+        return new Coordinate(this.x+b.getX(), this.y+b.getY());       
     }
 
     public int getX(){
@@ -57,29 +62,11 @@ public class Coordinate {
         return hash;
     }
         
-    private static List<Coordinate> getInbetweenByX(Coordinate from, Coordinate to){
-        int startRange =0;
-        int endRange = 0;
-        if(from.getY()>to.getY()){
-            endRange = from.getY();
-            startRange = to.getY();
-        }else{
-            endRange = to.getY();
-            startRange = from.getY();
-        }
-        List<Coordinate> coords = IntStream.range(startRange, endRange+1).mapToObj(yCoord -> new Coordinate(from.getX(), yCoord)).collect(Collectors.toList());
+    private static List<Coordinate> getInbetweenCoordinates(Coordinate from, Coordinate to, int xDiff,int yDiff){
+        int xDirection = (xDiff==0)?0: (from.getX()-to.getX()>0)?-1:1;
+        int yDirection =(yDiff==0)?0: (from.getY()-to.getY()>0)?-1:1;
+        int step = (xDiff ==0)?yDiff:xDiff;
+        List<Coordinate> coords = IntStream.range(0, step+1).mapToObj(growth -> from.addCoordinate(new Coordinate(growth*xDirection, growth*yDirection))).collect(Collectors.toList());
         return coords;
-    }
-    private static List<Coordinate> getInbetweenByY(Coordinate from,Coordinate to){
-            int startRange =0;
-            int endRange = 0;
-            if(from.getX()>to.getX()){
-                endRange = from.getX();
-                startRange = to.getX();
-            }else{
-                endRange = to.getX();
-                startRange = from.getX();
-            }
-           return IntStream.range(startRange, endRange+1).mapToObj(xCoord -> new Coordinate(xCoord, from.getY())).collect(Collectors.toList());
     }
 }
