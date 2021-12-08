@@ -22,7 +22,7 @@ public class HydroThermalVenture extends AdventSolver<List<Coordinate>> {
     @Override
     protected int findPartOneResult() {
         Map<Coordinate, Integer> resultMap = this.processedInput.stream().collect(Collectors.toMap((key) -> key, (value) -> 0,(existing, replacement) -> 2));
-        return (int) resultMap.values().stream().filter(v -> 1<v).count();
+        return (int) resultMap.values().stream().filter(v -> 0<v).count();
     }
 
     @Override
