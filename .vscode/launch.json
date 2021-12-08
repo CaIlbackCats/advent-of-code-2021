@@ -8,6 +8,13 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
+            "mainClass": "five.App",
+            "projectName": "advent-of-code-2021_67907673"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
             "mainClass": "four.App",
             "projectName": "advent-of-code-2021_67907673"
         },

@@ -21,10 +21,10 @@ public class Coordinate {
         Coordinate from = new Coordinate(Integer.parseInt(rows[0]),Integer.parseInt(rows[1]));
         Coordinate to = new Coordinate(Integer.parseInt(rows[2]),Integer.parseInt(rows[3]));
         if(from.getX()==to.getX()){
-            getInbetweenByX(from, to);
+            return getInbetweenByX(from, to);
         }
         if(from.getY()==to.getY()){
-            getInbetweenByY(from, to);
+            return getInbetweenByY(from, to);
         }
         return Collections.emptyList();
     }
@@ -47,6 +47,12 @@ public class Coordinate {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        //TODO
+        return 1;
+    }
+        
     private static List<Coordinate> getInbetweenByX(Coordinate from, Coordinate to){
         int startRange =0;
         int endRange = 0;
