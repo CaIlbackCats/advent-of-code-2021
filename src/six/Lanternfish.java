@@ -1,63 +1,59 @@
 package six;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.FileHandler;
+import utils.InputProcessor;
 
-public class Lanternfish extends AdventSolver<List<BreedingCycle>> {
+public class Lanternfish extends AdventSolver<List<Integer>,Long> {
 
     private static final int PART_ONE_DAY_COUNTER = 80;
     private static final int PART_TWO_DAY_COUNTER = 256;
     
 
-    protected Lanternfish() {
-        super(DailyFilePath.SIX);
+    protected Lanternfish(InputProcessor<List<Integer>> inputProcessor) {
+        super(DailyFilePath.SIX,inputProcessor);
     }
 
     @Override
-    protected int findPartOneResult() {
-       return (int) getNumberOfFishAfterDay(PART_ONE_DAY_COUNTER, new ArrayList<>(this.processedInput));
+    public Long findPartOneResult() {
+        Map<Integer,Long> lanternfishMap = initMap(this.processedInput);
+        cycleMap(lanternfishMap, PART_ONE_DAY_COUNTER);
+       return lanternfishMap.values().stream().reduce(Long::sum).orElse(-1l);
     }
 
     @Override
-    protected int findPartTwoResult() {
-        return  (int) getNumberOfFishAfterDay(PART_TWO_DAY_COUNTER, new ArrayList<>(this.processedInput));
+    public Long findPartTwoResult() {
+        Map<Integer,Long> lanternfishMap = initMap(this.processedInput);
+        cycleMap(lanternfishMap, PART_TWO_DAY_COUNTER);
+       return lanternfishMap.values().stream().reduce(Long::sum).orElse(-1l);
     }
 
-    @Override
-    protected List<BreedingCycle> processInput(Path path) {        
-        return FileHandler.createListFromInput(path).stream()
-                                                    .map(line -> Arrays.stream(line.split(","))
-                                                                        .map(Integer::valueOf)
-                                                                        .map(BreedingCycle::new)
-                                                                        .collect(Collectors.toList()))
-                                                    .flatMap(Collection::stream)
-                                                    .collect(Collectors.toList());
-    }
-
-    private long getNumberOfFishAfterDay(int dayCounter, List<BreedingCycle> cycles){
-        int addNewCounter =0;
-        for (int i = 0; i < dayCounter; i++) {
-            List<BreedingCycle> newBreeds = IntStream.range(0, addNewCounter).mapToObj(index -> new BreedingCycle()).collect(Collectors.toList());
-            cycles.addAll(newBreeds);
-            addNewCounter=0;
-            for (int j = 0; j < cycles.size(); j++) {
-                BreedingCycle bc = cycles.get(j);
-                bc.breed();
-                if(bc.getSpawn()==0){
-                    addNewCounter++;
-                }   
-            }
+    private Map<Integer,Long> initMap(List<Integer> lanternfishes){
+        Map<Integer,Long> lanternfishMap = new HashMap<>();
+        IntStream.range(0, 9).forEach(counter -> lanternfishMap.put(counter, 0l));
+        for (Integer current : lanternfishes) {
+           long newValue = lanternfishMap.get(current)+1;
+           lanternfishMap.put(current, newValue);
         }
-        return cycles.size();
+        return lanternfishMap;
     }
-    
+    private void cycleMap(Map<Integer,Long> lanternfishMap, int counter){
+        for (int i = 0; i < counter; i++) {
+            long temp = lanternfishMap.get(0);
+            lanternfishMap.put(0, lanternfishMap.get(1));
+            lanternfishMap.put(1, lanternfishMap.get(2));
+            lanternfishMap.put(2, lanternfishMap.get(3));
+            lanternfishMap.put(3, lanternfishMap.get(4));
+            lanternfishMap.put(4, lanternfishMap.get(5));
+            lanternfishMap.put(5, lanternfishMap.get(6));
+            lanternfishMap.put(6, temp+lanternfishMap.get(7));
+            lanternfishMap.put(7, lanternfishMap.get(8));
+            lanternfishMap.put(8, temp);
+        }
+    }    
 }

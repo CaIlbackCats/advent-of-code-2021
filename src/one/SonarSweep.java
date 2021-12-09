@@ -1,32 +1,26 @@
 package one;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.FileHandler;
+import utils.InputProcessor;
 
-public class SonarSweep extends AdventSolver<List<Integer>> {
+public class SonarSweep extends AdventSolver<List<Integer>,Integer> {
 
-    public SonarSweep(){
-       super(DailyFilePath.ONE);
+    public <T> SonarSweep(InputProcessor<List<Integer>> inputProcessor){
+       super(DailyFilePath.ONE,inputProcessor);
     }
 
     @Override
-    protected int findPartOneResult(){
+    public Integer findPartOneResult(){
         return countIncreasedWindow(this.processedInput, 1);
     }
     @Override
-    protected int findPartTwoResult(){
+    public Integer findPartTwoResult(){
         return countIncreasedWindow(this.processedInput, 3);
-    }
-
-    @Override
-    protected List<Integer> processInput(Path path){
-        return FileHandler.createListFromInput(path).stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     private Integer countIncreasedWindow(List<Integer> inputs, Integer window){

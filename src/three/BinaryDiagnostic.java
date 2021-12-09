@@ -1,6 +1,5 @@
 package three;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,30 +7,25 @@ import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.FileHandler;
+import utils.InputProcessor;
 
-public class BinaryDiagnostic extends AdventSolver<List<String>> {
+public class BinaryDiagnostic extends AdventSolver<List<String>,Integer> {
 
-    public BinaryDiagnostic(){
-      super(DailyFilePath.THREE);
+    public BinaryDiagnostic(InputProcessor<List<String>> inputProcessor){
+      super(DailyFilePath.THREE,inputProcessor);
     }
 
     @Override
-    protected int findPartOneResult() {
+    public Integer findPartOneResult() {
       int[] sums = getBitFromCommonCount(this.processedInput, true);
       return getConsumption(sums);
     }
 
     @Override
-    protected int findPartTwoResult() {
+    public Integer findPartTwoResult() {
       int generator = getGeneratorOrScrubberRating(new ArrayList<>(this.processedInput), true);
       int scrubber = getGeneratorOrScrubberRating(new ArrayList<>(this.processedInput), false);
       return generator*scrubber;
-    }
-
-    @Override
-    protected List<String> processInput(Path path) {
-      return FileHandler.createListFromInput(path);
     }
 
     //TODO refactor

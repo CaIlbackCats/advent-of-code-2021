@@ -1,6 +1,5 @@
 package five;
 
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -8,27 +7,22 @@ import java.util.stream.Collectors;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.FileHandler;
+import utils.InputProcessor;
 
-public class HydroThermalVenture extends AdventSolver<List<String []>> {
+public class HydroThermalVenture extends AdventSolver<List<String []>,Integer> {
 
-    protected HydroThermalVenture() {
-        super(DailyFilePath.FIVE);
+    protected HydroThermalVenture(InputProcessor<List<String[]>> inputProcessor) {
+        super(DailyFilePath.FIVE,inputProcessor);
     }
 
     @Override
-    protected int findPartOneResult() {
+    public Integer findPartOneResult() {
         return getResultByDiagonal(false);
     }
 
     @Override
-    protected int findPartTwoResult() {
+    public Integer findPartTwoResult() {
         return getResultByDiagonal(true);
-    }
-
-    @Override
-    protected List<String []> processInput(Path path) {
-        return FileHandler.createListFromInput(path).stream().map(row->(row.replace(" -> ", ",")).split(",")).collect(Collectors.toList());        
     }
 
     private int getResultByDiagonal(boolean diagonal){
