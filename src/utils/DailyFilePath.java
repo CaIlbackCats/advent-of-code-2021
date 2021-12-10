@@ -11,7 +11,8 @@ public enum DailyFilePath {
     FOUR("/workspace/advent-of-code-2021/src/resources/Day 4"),
     FIVE("/workspace/advent-of-code-2021/src/resources/Day 5"),
     SIX("/workspace/advent-of-code-2021/src/resources/Day 6"),
-    SEVEN("/workspace/advent-of-code-2021/src/resources/Day 7");
+    SEVEN("/workspace/advent-of-code-2021/src/resources/Day 7"),
+    EIGHT("/workspace/advent-of-code-2021/src/resources/Day 7");
     private Path folderPath;
 
     private DailyFilePath(String folderPath){
