@@ -1,8 +1,6 @@
 package four;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +11,6 @@ import java.util.stream.Collectors;
 import utils.AdventSolver;
 import utils.Constants;
 import utils.DailyFilePath;
-import utils.FileHandler;
 import utils.InputProcessor;
 
 public class GiantSquid extends AdventSolver<Bingo,Integer> {

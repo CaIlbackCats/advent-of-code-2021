@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import five.Coordinate;
 import four.Bingo;
 import four.NumberLocation;
 
@@ -69,6 +70,18 @@ public class InputProcessorService {
                                         .collect(Collectors.toList()))
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
+    }
+    public static Map<Coordinate,Integer> covertInputToCoordinateMap(List<String> inputs){
+      Map<Coordinate,Integer> coordinateMap = new HashMap<>();
+      for (int i = 0; i < inputs.size(); i++) {
+        //x oszlop y sor
+        List<String> values = Arrays.stream(inputs.get(i).split("")).collect(Collectors.toList());
+        for (int j = 0; j < values.size(); j++) {
+          Coordinate coordinate = new Coordinate(j, i);
+          coordinateMap.put(coordinate, Integer.valueOf(values.get(j)));
+        }
+      }
+      return coordinateMap;
     }
 
     private static int fillMap(String line, Map<String,Integer> map){

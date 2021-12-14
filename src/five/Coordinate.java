@@ -1,5 +1,6 @@
 package five;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,20 @@ public class Coordinate {
             return getInbetweenCoordinates(from, to, xDiff, yDiff);
         }
         return Collections.emptyList();
+    }
+
+    public List<Coordinate> getNeighbours(){
+        List<Coordinate> coordinates= new ArrayList<>();
+        Coordinate left = new Coordinate(this.x-1, this.y);
+        Coordinate right = new Coordinate(this.x+1, this.y);
+        Coordinate up = new Coordinate(this.x, this.y-1);
+        Coordinate down = new Coordinate(this.x, this.y+1);
+        coordinates.add(left);
+        coordinates.add(right);
+        coordinates.add(up);
+        coordinates.add(down);
+
+        return coordinates;
     }
 
     public Coordinate addCoordinate( Coordinate b){

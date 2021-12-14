@@ -2,7 +2,7 @@ package utils;
 
 public class SolutionPrinter {
 
-    public static void print(AdventSolver adventSolver){
+    public static <T,U> void print(AdventSolver<T,U> adventSolver){
         long start = System.nanoTime();
         adventSolver.solve();
         long end = System.nanoTime();
