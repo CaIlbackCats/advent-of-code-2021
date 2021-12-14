@@ -7,12 +7,11 @@ import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
 
 public class BinaryDiagnostic extends AdventSolver<List<String>,Integer> {
 
-    public BinaryDiagnostic(InputProcessor<List<String>> inputProcessor){
-      super(DailyFilePath.THREE,inputProcessor);
+    public BinaryDiagnostic(){
+      super(DailyFilePath.THREE,inputs -> inputs);
     }
 
     @Override

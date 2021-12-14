@@ -5,12 +5,12 @@ import java.util.Map;
 import utils.AdventSolver;
 import utils.Constants;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class Dive extends AdventSolver<Map<String,Integer>,Integer> {
 
-    public Dive(InputProcessor<Map<String,Integer>> inputProcessor){
-      super(DailyFilePath.TWO,inputProcessor);
+    public Dive(){
+      super(DailyFilePath.TWO,inputs -> InputProcessorService.convertInputToStringIntegerMap(inputs));
     }
     
     @Override

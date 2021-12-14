@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 import utils.AdventSolver;
 import utils.Constants;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class GiantSquid extends AdventSolver<Bingo,Integer> {
 
 
     private List<Integer> alreadyBingoed = new ArrayList<>();
 
-    protected GiantSquid(InputProcessor<Bingo> inputProcessor) {
-        super(DailyFilePath.FOUR,inputProcessor);
+    protected GiantSquid() {
+        super(DailyFilePath.FOUR,inputs -> InputProcessorService.convertInputToBingo(inputs));
     }
 
     @Override

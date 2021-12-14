@@ -11,12 +11,11 @@ import java.util.stream.IntStream;
 import utils.AdventSolver;
 import utils.Constants;
 import utils.DailyFilePath;
-import utils.InputProcessor;
 
 public class SevenSegmentSearch extends AdventSolver<List<String>,Integer> {
 
-    protected SevenSegmentSearch(InputProcessor<List<String>> inputProcessor) {
-        super(DailyFilePath.EIGHT, inputProcessor);
+    protected SevenSegmentSearch() {
+        super(DailyFilePath.EIGHT, inputs -> inputs);
     }
 
     @Override

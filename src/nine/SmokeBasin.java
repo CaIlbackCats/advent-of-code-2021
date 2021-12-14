@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 import five.Coordinate;
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class SmokeBasin extends AdventSolver<Map<Coordinate,Integer>,Integer>{
 
-    protected SmokeBasin(InputProcessor<Map<Coordinate, Integer>> inputProcessor) {
-        super(DailyFilePath.NINE,inputProcessor);
+    protected SmokeBasin() {
+        super(DailyFilePath.NINE,inputs -> InputProcessorService.covertInputToCoordinateMap(inputs));
     }
 
     @Override

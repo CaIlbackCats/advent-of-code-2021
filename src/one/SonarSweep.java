@@ -6,12 +6,12 @@ import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class SonarSweep extends AdventSolver<List<Integer>,Integer> {
 
-    public <T> SonarSweep(InputProcessor<List<Integer>> inputProcessor){
-       super(DailyFilePath.ONE,inputProcessor);
+    public <T> SonarSweep(){
+       super(DailyFilePath.ONE,(inputs) -> InputProcessorService.convertInputToIntList(inputs));
     }
 
     @Override

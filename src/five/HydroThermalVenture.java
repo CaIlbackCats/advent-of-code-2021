@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class HydroThermalVenture extends AdventSolver<List<String []>,Integer> {
 
-    protected HydroThermalVenture(InputProcessor<List<String[]>> inputProcessor) {
-        super(DailyFilePath.FIVE,inputProcessor);
+    protected HydroThermalVenture() {
+        super(DailyFilePath.FIVE,inputs -> InputProcessorService.convertInputToStringArray(inputs));
     }
 
     @Override

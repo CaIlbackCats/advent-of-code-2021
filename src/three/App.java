@@ -4,6 +4,6 @@ import utils.SolutionPrinter;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        SolutionPrinter.print(new BinaryDiagnostic(inputs -> inputs));
+        SolutionPrinter.print(new BinaryDiagnostic());
     }
 }

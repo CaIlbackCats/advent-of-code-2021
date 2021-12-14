@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class Lanternfish extends AdventSolver<List<Integer>,Long> {
 
@@ -15,8 +15,8 @@ public class Lanternfish extends AdventSolver<List<Integer>,Long> {
     private static final int PART_TWO_DAY_COUNTER = 256;
     
 
-    protected Lanternfish(InputProcessor<List<Integer>> inputProcessor) {
-        super(DailyFilePath.SIX,inputProcessor);
+    protected Lanternfish() {
+        super(DailyFilePath.SIX,inputs -> InputProcessorService.convertInputSplitToIntList(inputs));
     }
 
     @Override

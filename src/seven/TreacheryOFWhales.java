@@ -8,14 +8,14 @@ import java.util.stream.IntStream;
 
 import utils.AdventSolver;
 import utils.DailyFilePath;
-import utils.InputProcessor;
+import utils.InputProcessorService;
 
 public class TreacheryOFWhales extends AdventSolver<List<Integer>,Integer> {
 
     private Map<Integer,Integer> crabPositionMap = new HashMap<>();
 
-    protected TreacheryOFWhales(InputProcessor<List<Integer>> inputProcessor) {
-        super(DailyFilePath.SEVEN, inputProcessor);
+    protected TreacheryOFWhales() {
+        super(DailyFilePath.SEVEN, inputs -> InputProcessorService.convertInputSplitToIntList(inputs));
     }
 
     @Override

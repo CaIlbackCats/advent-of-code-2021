@@ -8,6 +8,27 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
+            "mainClass": "three.App",
+            "projectName": "advent-of-code-2021_cfcf2b6e"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "two.App",
+            "projectName": "advent-of-code-2021_cfcf2b6e"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "nine.App",
+            "projectName": "advent-of-code-2021_cfcf2b6e"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
             "mainClass": "five.App",
             "projectName": "advent-of-code-2021_cfcf2b6e"
         },
