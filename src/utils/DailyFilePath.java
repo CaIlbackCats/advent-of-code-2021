@@ -13,7 +13,10 @@ public enum DailyFilePath {
     SIX("/workspace/advent-of-code-2021/src/resources/Day 6"),
     SEVEN("/workspace/advent-of-code-2021/src/resources/Day 7"),
     EIGHT("/workspace/advent-of-code-2021/src/resources/Day 8"),
-    NINE("/workspace/advent-of-code-2021/src/resources/Day 9");
+    NINE("/workspace/advent-of-code-2021/src/resources/Day 9"),
+   // TEN("/workspace/advent-of-code-2021/src/resources/Day 10");
+    TEN("src\\resources\\Day 10");
+
 
     private Path folderPath;
 
