@@ -5,17 +5,16 @@ import java.nio.file.Paths;
 
 public enum DailyFilePath {
 
-    ONE("/workspace/advent-of-code-2021/src/resources/Day 1"),
-    TWO("/workspace/advent-of-code-2021/src/resources/Day 2"),
-    THREE("/workspace/advent-of-code-2021/src/resources/Day 3"),
-    FOUR("/workspace/advent-of-code-2021/src/resources/Day 4"),
-    FIVE("/workspace/advent-of-code-2021/src/resources/Day 5"),
-    SIX("/workspace/advent-of-code-2021/src/resources/Day 6"),
-    SEVEN("/workspace/advent-of-code-2021/src/resources/Day 7"),
-    EIGHT("/workspace/advent-of-code-2021/src/resources/Day 8"),
-    NINE("/workspace/advent-of-code-2021/src/resources/Day 9"),
-   // TEN("/workspace/advent-of-code-2021/src/resources/Day 10");
-    TEN("src\\resources\\Day 10");
+    ONE("src/resources/Day 1"),
+    TWO("src/resources/Day 2"),
+    THREE("src/resources/Day 3"),
+    FOUR("src/resources/Day 4"),
+    FIVE("src/resources/Day 5"),
+    SIX("src/resources/Day 6"),
+    SEVEN("src/resources/Day 7"),
+    EIGHT("src/resources/Day 8"),
+    NINE("src/resources/Day 9"),
+    TEN("src/resources/Day 10");
 
 
     private Path folderPath;
