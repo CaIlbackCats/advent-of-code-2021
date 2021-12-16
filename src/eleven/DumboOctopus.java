@@ -21,58 +21,63 @@ public class DumboOctopus extends AdventSolver<Map<Coordinate,Integer>,Integer> 
 
     @Override
     public Integer findPartOneResult() {
-        return getNumberOfFlashes();
+        return getNumberOfFlashes(false,copyMap());
     }
 
     @Override
     public Integer findPartTwoResult() {
-        return null;
+        return getNumberOfFlashes(true,copyMap());
     }
 
-    private int getNumberOfFlashes(){
+    private int getNumberOfFlashes(boolean allFlashed, Map<Coordinate,Integer> coordMap){
         int numberOfFlashes =0;
-        for (int i = 0; i < Constants.MAX_OCTOPUS_STEP; i++) {
-            this.processedInput.entrySet().stream().map(Map.Entry::getKey).forEach(this::incrementEnergy);
-            for (Map.Entry<Coordinate,Integer> entry : this.processedInput.entrySet()) {
-                List<Coordinate> flashed = new ArrayList<>();
-                advanceStepRecursive(flashed, entry.getKey());
+        int step =0;
+        boolean end = false;
+        while ((allFlashed)?!end:step<Constants.MAX_OCTOPUS_STEP){
+            List<Coordinate> flashed = new ArrayList<>();
+            advanceStep(coordMap, flashed);
+            if(allFlashed && flashed.size()==coordMap.size()){
+                end = true;
+            }else{
                 numberOfFlashes+=flashed.size();
             }
-            System.out.println(i+"----------------------");
-            printMap();
+            step ++;
         }
-        return numberOfFlashes;
+        return (allFlashed)?step:numberOfFlashes;
+    }
+    private void advanceStep(Map<Coordinate,Integer> coordMap, List<Coordinate> flashed){
+        coordMap.entrySet().stream().map(Map.Entry::getKey)
+                                    .forEach(coord -> {incrementEnergy(coord, coordMap); 
+                                                       advanceStepRecursive(flashed, coord, coordMap);});
+        flashed.stream().forEach(coord ->coordMap.put(coord, 0));
     }
 
-    private void advanceStepRecursive(List<Coordinate> flashed,Coordinate current){
-        int currentEnergy = this.processedInput.get(current);
+    private void advanceStepRecursive(List<Coordinate> flashed,Coordinate current, Map<Coordinate,Integer> coordMap){
+        int currentEnergy = coordMap.get(current);
         if(currentEnergy>Constants.ENERGY_LEVEL_LIMIT){
-            flashed.add(current);
-            List<Coordinate> neighbours = current.getExtendedNeighbours();
+            if(!flashed.contains(current)){
+                flashed.add(current);
+                coordMap.put(current, 0);
+            }
+            List<Coordinate> neighbours = current.getExtendedNeighbours().stream()
+                                                                        .filter(coord -> coordMap.get(coord)!=null)
+                                                                        .collect(Collectors.toList());
             for (Coordinate neighbour : neighbours) {
-                if(this.processedInput.get(neighbour)!=null && !flashed.contains(neighbour)){
-                    incrementEnergy(neighbour);
-                    advanceStepRecursive(flashed, neighbour);
+                if(!flashed.contains(neighbour)){
+                    incrementEnergy(neighbour,coordMap);
+                    advanceStepRecursive(flashed, neighbour,coordMap);
                 }
             }
-            this.processedInput.put(current, 0);
         }
     }
 
-    private void incrementEnergy(Coordinate coordinate){
-        int newValue = this.processedInput.get(coordinate)+1;
-            this.processedInput.put(coordinate, newValue);
+    private void incrementEnergy(Coordinate coordinate,Map<Coordinate,Integer> coordMap){
+        int newValue = coordMap.get(coordinate)+1;
+        coordMap.put(coordinate, newValue);
     }
 
-    private void printMap(){
-        List<Coordinate> coords = this.processedInput.keySet().stream().collect(Collectors.toList());
-        Collections.sort(coords);
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                System.out.print(this.processedInput.get(new Coordinate(j, i))+" ");
-            }
-            System.out.println();
-        }
+    private Map<Coordinate,Integer> copyMap(){
+        return this.processedInput.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,entry -> entry.getValue()));
     }
 
 

@@ -24,7 +24,7 @@ public class Constants {
                                                                      "}",3,
                                                                      ">",4);
     public static final Integer ENERGY_LEVEL_LIMIT = 9;
-    public static final Integer MAX_OCTOPUS_STEP = 30;
+    public static final Integer MAX_OCTOPUS_STEP = 100;
 
 
 }
