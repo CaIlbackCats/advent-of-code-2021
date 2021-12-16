@@ -14,7 +14,8 @@ public enum DailyFilePath {
     SEVEN("src/resources/Day 7"),
     EIGHT("src/resources/Day 8"),
     NINE("src/resources/Day 9"),
-    TEN("src/resources/Day 10");
+    TEN("src/resources/Day 10"),
+    ELEVEN("src/resources/Day 11");
 
 
     private Path folderPath;

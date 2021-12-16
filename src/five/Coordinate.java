@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate> {
 
     private static final int HASH_PRIME = 43;
     
@@ -37,13 +37,26 @@ public class Coordinate {
         List<Coordinate> coordinates= new ArrayList<>();
         Coordinate left = new Coordinate(this.x-1, this.y);
         Coordinate right = new Coordinate(this.x+1, this.y);
-        Coordinate up = new Coordinate(this.x, this.y-1);
-        Coordinate down = new Coordinate(this.x, this.y+1);
+        Coordinate up = new Coordinate(this.x, this.y+1);
+        Coordinate down = new Coordinate(this.x, this.y-1);
         coordinates.add(left);
         coordinates.add(right);
         coordinates.add(up);
         coordinates.add(down);
 
+        return coordinates;
+    }
+    public List<Coordinate> getExtendedNeighbours(){
+        List<Coordinate> coordinates = new ArrayList<>();
+        Coordinate upperLeft = new Coordinate(this.x-1, this.y+1);
+        Coordinate upperRight = new Coordinate(this.x+1, this.y+1);
+        Coordinate lowerLeft = new Coordinate(this.x-1, this.y-1);
+        Coordinate lowerRight = new Coordinate(this.x+1, this.y-1);
+        coordinates.add(upperLeft);
+        coordinates.add(upperRight);
+        coordinates.add(lowerLeft);
+        coordinates.add(lowerRight);
+        coordinates.addAll(getNeighbours());
         return coordinates;
     }
 
@@ -83,5 +96,14 @@ public class Coordinate {
         int step = (xDiff ==0)?yDiff:xDiff;
         List<Coordinate> coords = IntStream.range(0, step+1).mapToObj(growth -> from.addCoordinate(new Coordinate(growth*xDirection, growth*yDirection))).collect(Collectors.toList());
         return coords;
+    }
+
+    @Override
+    public int compareTo(Coordinate o) {
+        if(this.x==o.x){
+            return this.y-o.y;
+        }else{
+            return this.x-o.x;
+        }
     }
 }

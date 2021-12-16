@@ -23,6 +23,8 @@ public class Constants {
                                                                      "]",2,
                                                                      "}",3,
                                                                      ">",4);
+    public static final Integer ENERGY_LEVEL_LIMIT = 9;
+    public static final Integer MAX_OCTOPUS_STEP = 30;
 
 
 }
